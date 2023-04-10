@@ -8,6 +8,8 @@
 import numpy as np
 import argparse
 import igraph as ig
+import sys, os
+sys.path.append(os.path.dirname(os.getcwd()))
 from group_partitions import generate_2_allocations, utilities, set_seed
 
 def swap(alloc, x, y):

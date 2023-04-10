@@ -33,11 +33,8 @@ def test_generate_2_allocations():
             count += 1
         print(num, count)
 
-def utilities(g: ig.Graph, allocation: np.ndarray):
+def utilities_adj(graph_adj: np.ndarray, allocation: np.ndarray):
     k, n = allocation.shape
-    graph_adj = np.array(g.get_adjacency().data)
-    assert n == graph_adj.shape[0]
-
     utilities = graph_adj @ allocation.T
     cross_utilities = utilities @ allocation - graph_adj
     co_allocation = allocation.T @ allocation
@@ -48,6 +45,12 @@ def utilities(g: ig.Graph, allocation: np.ndarray):
         'cross_utilities': cross_utilities.astype(np.int32),
         'envy': envy.astype(np.int32)
     }
+
+def utilities(g: ig.Graph, allocation: np.ndarray):
+    k, n = allocation.shape
+    graph_adj = np.array(g.get_adjacency().data)
+    assert n == graph_adj.shape[0]
+    return utilities_adj(graph_adj, allocation)    
 
 def test_utilities():
     n = 5
